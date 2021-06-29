@@ -3,7 +3,7 @@ const cors = require('cors');
 const express = require('express')
 const morgan = require('morgan')
 require('dotenv').config()
-const sequelize = require('./db_connect')
+// import sequelize from 'db_connect'
 
 const bodyParser = require('body-parser');
 const app = express()
@@ -15,15 +15,9 @@ app.use(morgan('dev'));
 app.use(cors());
 
 
-async function start() {
-    try {
-        // await sequelize.sync({force:true})
-        app.listen(app.get('port'), () => {
-            console.log(`[OK] Server is running on localhost:${app.get('port')}`);
-        });
-    } catch (e) {
-        console.log(e)
-    }
-}
+app.use('/api/auth', require('./controllers/auth'));
 
-start()
+
+app.listen(app.get('port'), () => {
+    console.log(`[OK] Server is running on localhost:${app.get('port')}`);
+});

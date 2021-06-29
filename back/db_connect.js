@@ -1,8 +1,7 @@
-const Sequelize = require('sequelize')
-import config from './config'
+import Sequelize from 'sequelize'
 
-const connection = new Sequelize(
-    config.DB_NAME,
+export default new Sequelize(
+    process.env.DB_NAME,
     config.USER_NAME,
     config.PASSWORD, 
     {
@@ -12,5 +11,3 @@ const connection = new Sequelize(
             timestamps: false
         }
     })
-
-module.exports = connection
