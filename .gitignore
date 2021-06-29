@@ -1,0 +1,19 @@
+
+back/package-lock.json
+back/node_modules/
+
+front/node_modules/
+front/package-lock.json
+
+# local env files
+.env.local
+.env.*.local
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
