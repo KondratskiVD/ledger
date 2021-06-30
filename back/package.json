@@ -5,7 +5,11 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "dbm": "sequelize db:migrate",
+    "dbmr": "sequelize db:migrate:undo:all",
+    "dbs": "sequelize db:seed:all",
+    "dbsr": "sequelize db:seed:undo:all"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
