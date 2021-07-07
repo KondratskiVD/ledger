@@ -1,7 +1,4 @@
 <template>
-  <button class="button button_submit">
-    Уже есть аккаунт?
-  </button>
   <div class="social-links">
     <p class="social-links__title">Войти через социальную сети</p>
     <div class="social-links__container">
@@ -29,29 +26,111 @@
       </button>
     </div>
   </div>
-  <div class="registration-form">
-    <p class="registration-form__title">Зарегестрироваться через почту и пароль:</p>
+  <form
+    @submit.prevent="signIn"
+    class="registration-form">
+    <p class="registration-form__title">Войти через почту и пароль:</p>
     <div class="input-group registration-form__input-group">
-      <input class="input-group__field" type="email" id="email" placeholder="Введите E-mail">
+      <input v-model="email" class="input-group__field" type="email" id="email" placeholder="Введите E-mail">
     </div>
     <div class="input-group registration-form__input-group">
-      <input class="input-group__field" type="password" id="password" placeholder="Придумайте пароль">
+      <input v-model="password" class="input-group__field" type="password" id="password" placeholder="Придумайте пароль">
     </div>
-    <div class="input-group registration-form__input-group">
-      <input class="input-group__field" type="password" id="repeat_password" placeholder="Повторите пароль">
+    <div class="registration-form__submit">
+      <button class="button button_submit">
+        Отправить
+      </button>
     </div>
-  </div>
-  <button class="button button_submit">
-    Отправить
-  </button>
+  </form>
 </template>
 
-<script>
-export default {
-  name: 'SignIn'
-}
+<script lang="ts">
+import { defineComponent, ref } from 'vue'
+import { useStore } from 'vuex'
+
+export default defineComponent({
+  name: 'SignIn',
+  setup () {
+    const email = ref('test@test.com')
+    const password = ref('123123')
+    const error = ref(null)
+    const isLoading = ref(false)
+    const store = useStore()
+
+    const signIn = () => {
+      store.dispatch('auth/login', { email: email.value, password: password.value })
+    }
+
+    return {
+      email,
+      password,
+      error,
+      isLoading,
+      signIn
+    }
+  }
+})
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.social-links {
+  &__container {
+    display: flex;
+    justify-content: center;
+    margin: 5px 0;
+  }
+  &__button {
+    margin: 0 5px 10px 5px;
+  }
+}
 
+.registration-form {
+  width: 100%;
+  &__submit {
+    padding-top: 20px;
+    text-align: center;
+  }
+}
+.button {
+  padding: 10px;
+  border-radius: 12px;
+  outline: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  background: #E9EDF0;
+  color: #616E7D;
+  transition: all 0.1s ease-in-out;
+}
+
+.button_simple {
+  box-shadow: inset 0 -3px 4px #d3dbe6, inset 0 3px 4px #ffffff;
+}
+
+.button_submit {
+  border-radius: 12px;
+  box-shadow: -13px -13px 17px rgba(255, 255, 255, 0.8),
+  13px 13px 17px rgba(212, 219, 230, 1);
+
+  &:hover {
+    box-shadow: -6px -6px 10px rgba(255, 255, 255, 0.8),
+    6px 6px 10px rgba(212, 219, 230, 1);
+  }
+
+  &:active {
+    opacity: 1;
+    box-shadow: inset -4px -4px 8px rgba(255, 255, 255, 0.5),
+    inset 8px 8px 16px rgba(0, 0, 0, 0.1);
+    color: #40C1AC;
+  }
+}
+
+.input-group__field {
+  width: calc(100% - 20px);
+  border: 1px solid transparent;
+  background: #E9EDF0;
+  padding: 10px;
+  border-radius: 12px;
+  margin: 5px 0;
+  box-shadow: inset 0 -3px 4px #ffffff, inset 0 3px 4px #d3dbe6;
+}
 </style>
