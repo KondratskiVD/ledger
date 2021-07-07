@@ -26,6 +26,7 @@
       </button>
     </div>
   </div>
+  {{ isAuth }}
   <form
     @submit.prevent="signIn"
     class="registration-form">
@@ -45,8 +46,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, computed } from 'vue'
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'SignIn',
@@ -56,17 +58,28 @@ export default defineComponent({
     const error = ref(null)
     const isLoading = ref(false)
     const store = useStore()
+    const route = useRouter();
 
-    const signIn = () => {
-      store.dispatch('auth/login', { email: email.value, password: password.value })
+    const isAuth = computed(() => store.getters['auth/getAuthData'])
+
+    const signIn = async () => {
+      await store.dispatch('auth/login', { email: email.value, password: password.value })
+      debugger
+      if(isAuth.value === 'success') {
+        debugger
+        route.push("/");
+      }
     }
 
+
+    
     return {
       email,
       password,
       error,
       isLoading,
-      signIn
+      signIn,
+      isAuth
     }
   }
 })

@@ -16,7 +16,7 @@ const state: AuthState = {
     userName: '',
     userEmail: ''
   },
-  loginStatus: ''
+  loginStatus: 'failed'
 }
 
 const mutations: MutationTree<AuthState> = {
@@ -33,7 +33,6 @@ const mutations: MutationTree<AuthState> = {
       userName: tokenData.userName,
       userEmail: tokenData.email
     }
-    console.log(authData)
     state.authData = authData
   },
   setLoginStatus (state, value) {
@@ -59,10 +58,17 @@ const actions: ActionTree<AuthState, RootState> = {
           message: err
         }, { root: true })
       })
+  },
+  logout ({ commit }) {
+    commit('setLoginStatus', 'failed')
   }
 }
 
-const getters = {}
+const getters = {
+  getAuthData(state: { loginStatus: string }):string{
+    return state.loginStatus;
+  }
+}
 
 export default {
   namespaced: true,

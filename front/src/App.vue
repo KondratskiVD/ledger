@@ -5,6 +5,7 @@
 <script lang="ts">
 import { defineComponent, watch, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
 
 import MainLayout from '@/layouts/MainLayout.vue'
 import AuthLayout from '@/layouts/AuthLayout.vue'
@@ -19,7 +20,8 @@ export default defineComponent({
   },
   setup () {
     const route = useRoute()
-
+    const store = useStore()
+    
     watch(
       () => route.meta.layout,
       () => {
@@ -29,8 +31,10 @@ export default defineComponent({
       }
     )
 
+    const isAuth = computed(() => store.getters['auth/getAuthData'])
+
     return {
-      layout: computed(() => route.meta.layout || 'AuthLayout')
+      layout: computed(() => isAuth.value ? route.meta.layout : 'AuthLayout')
     }
   }
 })
