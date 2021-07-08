@@ -1,7 +1,7 @@
 <template>
   <div class="app">
-      <router-view></router-view>
-      <Header/>
+    <Header/>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -21,5 +21,6 @@ export default defineComponent({
   min-height: 100vh;
   padding-bottom: var(--global-bottom-spacing);
   box-sizing: border-box;
+  background: #E9EDF0;
 }
 </style>

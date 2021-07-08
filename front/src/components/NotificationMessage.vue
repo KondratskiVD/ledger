@@ -19,7 +19,7 @@ export default defineComponent({
 
     const timeout = setTimeout(() => {
       store.dispatch('notify/removeNotification', props.notification)
-    }, 155500)
+    }, 1500)
     onBeforeUnmount(() => {
       clearTimeout(timeout)
     })
@@ -35,6 +35,7 @@ export default defineComponent({
 .notification {
   border-radius: 4px;
   box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  animation: fade-in 0.2s ease;
   .message {
     text-align: center;
     padding: 15px;
@@ -48,6 +49,10 @@ export default defineComponent({
   }
   &--success {
     background: #40c1ac;
+  }
+  @keyframes fade-in {
+    0%  { opacity: 0 }
+    100% { opacity: 1 }
   }
 }
 </style>

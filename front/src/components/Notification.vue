@@ -20,12 +20,9 @@ export default defineComponent({
   },
   setup () {
     const store = useStore()
-    const notifications = computed(() => {
-      return store.state.notify.notifications
-    })
 
     return {
-      notifications
+      notifications: computed(() => store.state.notify.notifications)
     }
   }
 })
