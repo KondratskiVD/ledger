@@ -1,5 +1,5 @@
 <template>
-  <div class="notification">
+  <div class="notification-list">
     <NotificationMessage
     v-for="notification in notifications"
     :key="notification.id"
@@ -32,7 +32,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-  .notification {
+  .notification-list {
     position: fixed;
     top: 15px;
     right: 15px;

@@ -17,6 +17,6 @@ export default defineComponent({
 .app {
   background: #E9EDF0;
   height: 100vh;
-  padding: 15px;
+  padding: 0 15px;
 }
 </style>

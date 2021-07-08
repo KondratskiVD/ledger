@@ -15,14 +15,21 @@ export interface Notification {
   message: string
 }
 
+export interface Loading {
+  isLoading: boolean
+}
+
 export interface NotifyState {
   notifications: Notification[]
 }
 
 export interface RootState {
-  auth: AuthState
+  auth: AuthState,
+  Loading
 }
 
 export interface UserInfo {
   accessToken: string
 }
+
+

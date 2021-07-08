@@ -26,7 +26,6 @@
       </button>
     </div>
   </div>
-  {{ isAuth }}
   <form
     @submit.prevent="signIn"
     class="registration-form">
@@ -38,8 +37,9 @@
       <input v-model="password" class="input-group__field" type="password" id="password" placeholder="Придумайте пароль">
     </div>
     <div class="registration-form__submit">
-      <button class="button button_submit">
-        Отправить
+      <button class="button button--submit">
+        <span class="button__spinner" v-if="loading"></span>
+        <span v-else>Отправить</span>
       </button>
     </div>
   </form>
@@ -47,7 +47,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue'
-import { useStore } from 'vuex'
+import { useStore} from 'vuex'
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
@@ -56,30 +56,28 @@ export default defineComponent({
     const email = ref('test@test.com')
     const password = ref('123123')
     const error = ref(null)
-    const isLoading = ref(false)
     const store = useStore()
     const route = useRouter();
+    const loading = ref(false)
 
     const isAuth = computed(() => store.getters['auth/getAuthData'])
 
     const signIn = async () => {
+      loading.value = true
       await store.dispatch('auth/login', { email: email.value, password: password.value })
-      debugger
-      if(isAuth.value === 'success') {
-        debugger
-        route.push("/");
-      }
+      .then(() => {
+        route.push('/')
+      })
+      .finally(() => loading.value = false)
     }
 
-
-    
     return {
       email,
       password,
       error,
-      isLoading,
       signIn,
-      isAuth
+      isAuth,
+      loading
     }
   }
 })
@@ -119,10 +117,12 @@ export default defineComponent({
   box-shadow: inset 0 -3px 4px #d3dbe6, inset 0 3px 4px #ffffff;
 }
 
-.button_submit {
+.button--submit {
+  min-width: 112px;
   border-radius: 12px;
   box-shadow: -13px -13px 17px rgba(255, 255, 255, 0.8),
   13px 13px 17px rgba(212, 219, 230, 1);
+  font-size: 1.5em;
 
   &:hover {
     box-shadow: -6px -6px 10px rgba(255, 255, 255, 0.8),
@@ -145,5 +145,18 @@ export default defineComponent({
   border-radius: 12px;
   margin: 5px 0;
   box-shadow: inset 0 -3px 4px #ffffff, inset 0 3px 4px #d3dbe6;
+}
+.button__spinner {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border: 2px solid #2D373E;
+  border-right: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 1.5s infinite linear;
+}
+@keyframes spin {
+  0%  {-webkit-transform: rotate(0deg);}
+  100% {-webkit-transform: rotate(360deg);}
 }
 </style>

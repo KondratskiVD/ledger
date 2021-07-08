@@ -42,22 +42,28 @@ const mutations: MutationTree<AuthState> = {
 
 const actions: ActionTree<AuthState, RootState> = {
   login ({ commit, dispatch }, payload: { email: string, password: string}) {
-    const user = signIn(payload.email, payload.password)
-    user
-      .then((userInfo) => {
-        commit('saveTokenData', userInfo)
-        commit('setLoginStatus', 'success')
-        dispatch('notify/addNotification', {
-          type: NOTIFICATION_SUCCESS,
-          message: 'Welcome'
-        }, { root: true })
-      })
-      .catch(err => {
-        dispatch('notify/addNotification', {
-          type: NOTIFICATION_ERROR,
-          message: err
-        }, { root: true })
-      })
+    return new Promise((res, rej) => {
+      setTimeout(() => {
+        const user = signIn(payload.email, payload.password)
+        user
+          .then((userInfo) => {
+            commit('saveTokenData', userInfo)
+            commit('setLoginStatus', 'success')
+            dispatch('notify/addNotification', {
+              type: NOTIFICATION_SUCCESS,
+              message: 'Welcome'
+            }, { root: true })
+            res('OK')
+          })
+          .catch(err => {
+            dispatch('notify/addNotification', {
+              type: NOTIFICATION_ERROR,
+              message: err
+            }, { root: true })
+            rej('FUCK')
+          })
+      },500)
+    })
   },
   logout ({ commit }) {
     commit('setLoginStatus', 'failed')
