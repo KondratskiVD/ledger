@@ -13,12 +13,18 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: Home,
+      redirect: '/dashboard',
       meta: { layout: 'MainLayout', auth: true },
       children: [
         {
           path: '/dashboard',
           name: 'dashboard',
           component: Dashboard
+        },
+        {
+          path: '/analytics',
+          name: 'analytics',
+          component: () => import('@/views/Analytics/Index.vue')
         }
       ]
     },
